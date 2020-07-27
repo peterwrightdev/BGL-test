@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\dev\\projects\\BGL\\BGLOrdersAPI\\BGLOrdersAPI\\BGLOrdersAPI.csproj": {}
+    "C:\\Dev\\Projects\\BGL\\BGL-test\\BGLOrdersAPI\\BGLOrdersAPI\\BGLOrdersAPI.csproj": {}
   },
   "projects": {
-    "c:\\dev\\projects\\BGL\\BGLOrdersAPI\\BGLOrdersAPI\\BGLOrdersAPI.csproj": {
+    "C:\\Dev\\Projects\\BGL\\BGL-test\\BGLOrdersAPI\\BGLOrdersAPI\\BGLOrdersAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\dev\\projects\\BGL\\BGLOrdersAPI\\BGLOrdersAPI\\BGLOrdersAPI.csproj",
+        "projectUniqueName": "C:\\Dev\\Projects\\BGL\\BGL-test\\BGLOrdersAPI\\BGLOrdersAPI\\BGLOrdersAPI.csproj",
         "projectName": "BGLOrdersAPI",
-        "projectPath": "c:\\dev\\projects\\BGL\\BGLOrdersAPI\\BGLOrdersAPI\\BGLOrdersAPI.csproj",
+        "projectPath": "C:\\Dev\\Projects\\BGL\\BGL-test\\BGLOrdersAPI\\BGLOrdersAPI\\BGLOrdersAPI.csproj",
         "packagesPath": "C:\\Users\\Peter.Wright\\.nuget\\packages\\",
-        "outputPath": "c:\\dev\\projects\\BGL\\BGLOrdersAPI\\BGLOrdersAPI\\obj\\",
+        "outputPath": "C:\\Dev\\Projects\\BGL\\BGL-test\\BGLOrdersAPI\\BGLOrdersAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

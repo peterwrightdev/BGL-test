@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "lG4HDo1K6LMvWY7hGEdcP6UxD+ekyNtky97aHth+4zN7pxEfSQkwuCVZ6RgXAJ/VA64AAv/IoHzYppseFdzUOw==",
+  "dgSpecHash": "pi/f0PBEVtveiws7pf16G2QEJN7JQuBIAlJQA2uFs5ZfLTR2yKAjzUra9Q7vxKnintXoFosGraTSbmUq5IOE6w==",
   "success": true,
-  "projectFilePath": "c:\\dev\\projects\\BGL\\BGLOrdersAPI\\BGLOrdersAPI\\BGLOrdersAPI.csproj",
+  "projectFilePath": "C:\\Dev\\Projects\\BGL\\BGL-test\\BGLOrdersAPI\\BGLOrdersAPI\\BGLOrdersAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Peter.Wright\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\Peter.Wright\\.nuget\\packages\\microsoft.bcl.hashcode\\1.1.0\\microsoft.bcl.hashcode.1.1.0.nupkg.sha512",

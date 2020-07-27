@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BGLOrdersAPI.DataContexts;
 using BGLOrdersAPI.Models;
 using BGLOrdersAPI.Services;
+using BGLOrdersAPI.Reports;
 
 namespace BGLOrdersAPI.Controllers
 {
@@ -17,19 +18,19 @@ namespace BGLOrdersAPI.Controllers
     {
         private BGLContext _context;
 
-        // private IService _service;
+        private ILogicContext<Order, OrderReport> _logicContext;
 
         private readonly ILogger<OrdersController> _logger;
 
         // Use dependency injection to allow mocking of datetime used at runtime.
         private DateTimeService _dateTimeService;
 
-        public OrdersController(ILogger<OrdersController> logger, BGLContext bglContext, DateTimeService dateTimeService)
+        public OrdersController(ILogger<OrdersController> logger, BGLContext bglContext, DateTimeService dateTimeService, ILogicContext<Order, OrderReport> logicContext)
         {
             this._logger = logger;
             this._context = bglContext;
             this._dateTimeService = dateTimeService;
-            // this._service = service;
+            this._logicContext = logicContext;
         }
 
         // GET: /Orders
@@ -65,6 +66,43 @@ namespace BGLOrdersAPI.Controllers
             }
 
             return order;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Order>> CreateOrder(OrderReport report)
+        {
+            // For simplicity, drop the id if supplied on the create action.
+            report.OrderId = null;
+
+            Order newOrder = this._logicContext.ConvertReportToModel(report);
+            if (this._logicContext.Validate(newOrder))
+            {
+                ((DbContext)this._context).Add(newOrder);
+                await ((DbContext)this._context).SaveChangesAsync();
+
+                return CreatedAtAction("GetItems", new { id = newOrder.OrderId }, newOrder);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<Order>> UpdateItem(OrderReport report)
+        {
+            Order existingOrder = this._logicContext.ConvertReportToModel(report);
+            if (this._logicContext.Validate(existingOrder))
+            {
+                ((DbContext)this._context).Update(existingOrder);
+                await ((DbContext)this._context).SaveChangesAsync();
+
+                return CreatedAtAction("GetItems", new { id = existingOrder.OrderId }, existingOrder);
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
     }
 }

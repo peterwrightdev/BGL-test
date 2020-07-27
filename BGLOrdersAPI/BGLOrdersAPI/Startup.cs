@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using BGLOrdersAPI.DataContexts;
+using BGLOrdersAPI.Models;
+using BGLOrdersAPI.Reports;
 using BGLOrdersAPI.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,7 +33,10 @@ namespace BGLOrdersAPI
         {
             // Connection string should be configurable, but this is fast for now.
             services.AddDbContext<BGLContext>(options => options.UseSqlServer("Data Source=localhost;Initial Catalog=BGLOrdersDB;Integrated Security=True"));
+            services.AddScoped<IBGLContext>(provider => provider.GetService<BGLContext>());
             services.AddSingleton(new DateTimeService());
+            services.AddSingleton<ILogicContext<Item, ItemReport>>(new ItemLogicContext(new BGLContext(), new DateTimeService()));
+            services.AddSingleton<ILogicContext<Order, OrderReport>>(new OrderLogicContext(new BGLContext(), new DateTimeService()));
             services.AddControllers();
         }
 

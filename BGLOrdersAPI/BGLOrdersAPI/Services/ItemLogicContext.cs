@@ -5,17 +5,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace BGLOrdersAPI.Services
 {
     public class ItemLogicContext : ILogicContext<Item, ItemReport>
     {
-        private BGLContext _context;
+        private IBGLContext _context;
+        private DateTimeService _dateTimeService;
 
         // Injection so that this can be unit tested
-        public ItemLogicContext(BGLContext context)
+        public ItemLogicContext(IBGLContext context, DateTimeService dateTimeService)
         {
             this._context = context;
+            this._dateTimeService = dateTimeService;
         }
 
         public Item ConvertReportToModel(ItemReport itemReport)
@@ -24,11 +27,27 @@ namespace BGLOrdersAPI.Services
             {
                 ItemId = itemReport.ItemId,
                 ItemName = itemReport.ItemName,
+                LastUpdatedDateTime = this._dateTimeService.UtcDateTime(),
             };
 
-            foreach(Order order in itemReport.Orders)
+            if (itemReport.Orders != null)
             {
-                item.ItemOrderMaps.Add(new ItemOrderMap() { Item = item, Order = order });
+                item.ItemOrderMaps = new List<ItemOrderMap>();
+                foreach (Order order in itemReport.Orders)
+                {
+                    item.ItemOrderMaps.Add(new ItemOrderMap() { Item = item, Order = order });
+
+                    if (order.OrderId == null)
+                    {
+                        order.AddedDateTime = this._dateTimeService.UtcDateTime();
+                    }
+                }
+            }
+
+            // if creating a new record, set the current datetime
+            if (itemReport.ItemId == null)
+            {
+                item.AddedDateTime = this._dateTimeService.UtcDateTime();
             }
 
             return item;
@@ -46,12 +65,15 @@ namespace BGLOrdersAPI.Services
             }
 
             // for each order being referenced, verify that any that supposedly currently exist do in fact exist
-            var orders = item.ItemOrderMaps.Select(iom => iom.Order).ToList();
-            foreach (Order order in orders)
+            if (item.ItemOrderMaps != null)
             {
-                if (order.OrderId != null && this._context.Orders.Find(order.OrderId) == null)
+                var orders = item.ItemOrderMaps.Select(iom => iom.Order).ToList();
+                foreach (Order order in orders)
                 {
-                    passesValidation = false;
+                    if (order.OrderId != null && this._context.Orders.Find(order.OrderId) == null)
+                    {
+                        passesValidation = false;
+                    }
                 }
             }
 

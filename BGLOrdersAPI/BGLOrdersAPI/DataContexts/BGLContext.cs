@@ -8,7 +8,7 @@ using BGLOrdersAPI.Models;
 namespace BGLOrdersAPI.DataContexts
 {
 
-    public class BGLContext : DbContext
+    public class BGLContext : DbContext, IBGLContext
     {
         public BGLContext()
             : base()

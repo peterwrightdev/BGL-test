@@ -37,7 +37,8 @@ namespace BGLOrdersAPI
             services.AddSingleton(new DateTimeService());
             services.AddSingleton<ILogicContext<Item, ItemReport>>(new ItemLogicContext(new BGLContext(), new DateTimeService()));
             services.AddSingleton<ILogicContext<Order, OrderReport>>(new OrderLogicContext(new BGLContext(), new DateTimeService()));
-            services.AddControllers();
+            services.AddControllersWithViews();
+            services.AddMvc(option => option.EnableEndpointRouting = false);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +50,8 @@ namespace BGLOrdersAPI
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseMvcWithDefaultRoute();
 
             app.UseRouting();
 

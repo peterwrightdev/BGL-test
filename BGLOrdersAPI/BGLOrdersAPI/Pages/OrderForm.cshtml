@@ -1,0 +1,45 @@
+﻿@page
+@model BGLOrdersAPI.Pages.OrderModel
+
+@{
+    ViewData["Title"] = "OrderForm";
+}
+
+<h1>Order Form</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="get">
+            <div>
+                @foreach (var order in Model.Orders)
+                {
+                <tr>
+                    <td> @order.OrderName </td>
+                    <td> @order.OrderId </td>
+                    <td> @order.AddedDateTime </td>
+                    <td> @order.LastUpdatedDateTime </td>
+                </tr>
+
+                }
+                </div>
+
+        </form>
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Order.OrderName" class="control-label">OrderName</label>
+                <input asp-for="Order.OrderName" class="form-control" />
+                <span asp-validation-for="Order.OrderName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="button" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
